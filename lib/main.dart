@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inspection_app/widgets/navigation_bar_app/bottom_navigation_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'Material App',
       debugShowCheckedModeBanner: false,
       //theme: AppTheme(selectedColor: 0).theme(),
-      home: Text("Inspector App"),
+      home: CustomBottomNavigationBar(),
     );
   }
 }
