@@ -23,21 +23,24 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         children: screens,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: selectedIndex,
+        type: BottomNavigationBarType.shifting,
+        backgroundColor: Colors.white,
+        mouseCursor: SystemMouseCursors.grab,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.grey,
         elevation: 0,
+        currentIndex: selectedIndex,
         onTap: (int newIndex) {
           setState(() {
             selectedIndex = newIndex;
           });
         },
         items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled), label: "Inicio"),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Inicio"),
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Perfil"),
           BottomNavigationBarItem(
               icon: Icon(Icons.edit_document), label: "Inspeccionar"),
         ],
-        backgroundColor: Colors.transparent,
       ),
     );
   }

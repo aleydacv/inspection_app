@@ -9,11 +9,11 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Material App',
       debugShowCheckedModeBanner: false,
-      //theme: AppTheme(selectedColor: 0).theme(),
-      home: CustomBottomNavigationBar(),
+      theme: ThemeData(scaffoldBackgroundColor: const Color(0xFFF6F5FA)),
+      home: const CustomBottomNavigationBar(),
     );
   }
 }
