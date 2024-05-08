@@ -71,7 +71,8 @@ class CustomIconButton extends StatelessWidget {
               blurRadius: 1,
               offset: const Offset(0, 1),
             )
-          ]),
+          ]
+          ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             shape: const RoundedRectangleBorder(

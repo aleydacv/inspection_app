@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/form_screen.dart';
 
 class InspectionList extends StatelessWidget {
   const InspectionList({super.key});
@@ -7,31 +8,47 @@ class InspectionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Asignadas"),
+        title: const Text("Inspecciones Asignadas"),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(25.0),
-        child: Container(
-          //width: 200,
-          //height: 100,
-          decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 255, 255, 255),
-              borderRadius: BorderRadius.circular(20)),
-          child: ListView.separated(
-            padding: const EdgeInsets.all(8),
-            itemCount: 50,
-            itemBuilder: (BuildContext context, int index) {
-              return Container(
-                height: 35,
-                //color: Color.fromARGB(255, 57, 164, 206),
-                child: Center(child: Text('Entry aaaa')),
-              );
-            },
-            separatorBuilder: (BuildContext context, int index) =>
-                const Divider(),
-          ),
+        padding: const EdgeInsets.all(10.0),
+        child: ListView.builder(
+          itemCount: 50,
+          itemBuilder: (BuildContext context, int index) {
+            return const CostumListItem();
+          },
         ),
       ),
+    );
+  }
+}
+
+class CostumListItem extends StatelessWidget {
+  const CostumListItem({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(
+          height: 10,
+        ),
+        ListTile(
+          onTap: () {
+            print("guatafak");
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const FormScreen()),
+            );
+          },
+          tileColor: Colors.white,
+          title: const Text("Nombre del establecimiento"),
+          subtitle: const Text("Nombre propietario y rubro"),
+          trailing: const Icon(Icons.keyboard_arrow_right),
+        ),
+      ],
     );
   }
 }
