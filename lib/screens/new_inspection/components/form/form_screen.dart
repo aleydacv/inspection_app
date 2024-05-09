@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/auto_text_field.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_field.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/rating_slider.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/widgets/raiting_bar.dart';
 
-class FormScreen extends StatelessWidget {
+class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
 
   @override
+  State<FormScreen> createState() => _FormScreenState();
+}
+
+class _FormScreenState extends State<FormScreen> {
+  final sanitaryController = TextEditingController();
+  final notificationController = TextEditingController();
+  double waterSupplyController = 0;
+  /*final double restroomController;
+    final double wasteDisposalController;
+    final double insfrastructureController;
+    final double householdController;*/
+  int foodPreservationController = 0;
+  @override
   Widget build(BuildContext context) {
-    final sanitaryController = TextEditingController();
-    final notificationController = TextEditingController();
-    double currentSlide = 0;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Formulario"),
@@ -55,16 +65,74 @@ class FormScreen extends StatelessWidget {
               InputTextField(
                   label: "N° Notificacion Comprobante",
                   controller: notificationController),
-              RatingSlider(currentSlideValue: currentSlide),
+              RatingBarList(item: waterSupplyController),
+              CustomRatingBar(
+                  title: "Abastecimiento de agua",
+                  controller: foodPreservationController.toDouble(),
+                  onChanged: (double rating) {
+                    setState(() {
+                      foodPreservationController = rating.toInt() - 1;
+                    });
+                  }),
+              /*  CustomRatingBar(
+                title: "Estado sanitario de los baños",
+                controller: restroomController
+              ),
+              CustomRatingBar(
+                title: "Disposicion de residuos solidos",
+                controller: wasteDisposalController,
+              ),
+              CustomRatingBar(
+                title: "Infraestructura general",
+                controller: insfrastructureController,
+              ),
+              CustomRatingBar(
+                title: "Enseres, utencilios, menaje",
+                controller: householdController,
+              ),
+              CustomRatingBar(
+                title: "Conservacion adecuada de alimentos",
+                controller: foodPreservationController,
+              ),*/
             ],
           )),
         ),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            print("esto$currentSlide");
+            _submitForm();
           },
           child: const Text("Aceptar ")),
     );
+  }
+
+  void _submitForm() {
+    print("VALOR: $waterSupplyController");
+  }
+}
+
+class RatingBarList extends StatefulWidget {
+  double item;
+  RatingBarList({
+    super.key,
+    required this.item,
+  });
+
+  @override
+  State<RatingBarList> createState() => _RatingBarListState();
+}
+
+class _RatingBarListState extends State<RatingBarList> {
+  @override
+  Widget build(BuildContext context) {
+    return CustomRatingBar(
+        title: "Abastecimeinto de agua",
+        controller: widget.item,
+        onChanged: (double rating) {
+          setState(() {
+            widget.item = rating;
+            print("aqui $rating");
+          });
+        });
   }
 }
