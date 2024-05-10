@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/auto_text_field.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_field.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/raiting_bar.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/widgets/toggle_buttons.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -14,11 +15,31 @@ class _FormScreenState extends State<FormScreen> {
   final sanitaryController = TextEditingController();
   final notificationController = TextEditingController();
   double waterSupplyController = 0;
-  /*final double restroomController;
-    final double wasteDisposalController;
-    final double insfrastructureController;
-    final double householdController;*/
-  int foodPreservationController = 0;
+  double restroomController = 0;
+  double wasteDisposalController = 0;
+  double insfrastructureController = 0;
+  double householdController = 0;
+  double foodPreservationController = 0;
+  bool sanitaryCI = false;
+
+  final List<Widget> multipleOptions = [
+    const Text("Si"),
+    const Text("No"),
+    const Text("N/A")
+  ];
+  final List<Widget> yesNoOptions = [
+    const Text("Si"),
+    const Text("No"),
+  ];
+  final List<Widget> maleFemaleOptions = [
+    const Icon(Icons.male_rounded),
+    const Icon(Icons.female_rounded)
+  ];
+
+  final List<bool> workWear = [false, false, false];
+  final List<bool> fireExtinguisher = [false, false, false];
+  final List<bool> firstAidKit = [false, false, false];
+  final List<bool> sanitaryCi = [false, false];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,35 +86,74 @@ class _FormScreenState extends State<FormScreen> {
               InputTextField(
                   label: "N° Notificacion Comprobante",
                   controller: notificationController),
-              RatingBarList(item: waterSupplyController),
+              CustomToggleButtons(
+                  selectedList: sanitaryCi,
+                  options: maleFemaleOptions,
+                  title: "Carnet Sanitario",
+                  onPressed: (int index) => onPressedToggle(index, sanitaryCi)),
               CustomRatingBar(
                   title: "Abastecimiento de agua",
-                  controller: foodPreservationController.toDouble(),
+                  controller: waterSupplyController,
+                  onChanged: (double rating) =>
+                      onChangeRatingBar(rating, waterSupplyController)),
+              CustomRatingBar(
+                  title: "Estado sanitario de los baños",
+                  controller: restroomController,
                   onChanged: (double rating) {
                     setState(() {
-                      foodPreservationController = rating.toInt() - 1;
+                      restroomController = rating - 1;
                     });
                   }),
-              /*  CustomRatingBar(
-                title: "Estado sanitario de los baños",
-                controller: restroomController
-              ),
               CustomRatingBar(
-                title: "Disposicion de residuos solidos",
-                controller: wasteDisposalController,
-              ),
+                  title: "Disposicion de residuos solidos",
+                  controller: wasteDisposalController,
+                  onChanged: (double rating) {
+                    setState(() {
+                      wasteDisposalController = rating - 1;
+                    });
+                  }),
               CustomRatingBar(
-                title: "Infraestructura general",
-                controller: insfrastructureController,
-              ),
+                  title: "Infraestructura general",
+                  controller: insfrastructureController,
+                  onChanged: (double rating) {
+                    setState(() {
+                      insfrastructureController = rating - 1;
+                    });
+                  }),
               CustomRatingBar(
-                title: "Enseres, utencilios, menaje",
-                controller: householdController,
-              ),
+                  title: "Enseres, utencilios, menaje",
+                  controller: householdController,
+                  onChanged: (double rating) {
+                    setState(() {
+                      householdController = rating - 1;
+                    });
+                  }),
               CustomRatingBar(
-                title: "Conservacion adecuada de alimentos",
-                controller: foodPreservationController,
-              ),*/
+                  title: "Conservacion adecuada de alimentos",
+                  controller: foodPreservationController,
+                  onChanged: (double rating) {
+                    setState(() {
+                      foodPreservationController = rating - 1;
+                    });
+                  }),
+              Divider(),
+              CustomToggleButtons(
+                  selectedList: workWear,
+                  options: multipleOptions,
+                  title: "Ropa de Trabajo",
+                  onPressed: (int index) => onPressedToggle(index, workWear)),
+              CustomToggleButtons(
+                  selectedList: fireExtinguisher,
+                  options: multipleOptions,
+                  title: "Extintor",
+                  onPressed: (int index) =>
+                      onPressedToggle(index, fireExtinguisher)),
+              CustomToggleButtons(
+                  selectedList: firstAidKit,
+                  options: multipleOptions,
+                  title: "Botiquin",
+                  onPressed: (int index) =>
+                      onPressedToggle(index, firstAidKit)),
             ],
           )),
         ),
@@ -106,33 +166,22 @@ class _FormScreenState extends State<FormScreen> {
     );
   }
 
+  void onChangeRatingBar(double rating, double controller) {
+    setState(() {
+      controller = rating - 1;
+    });
+    print("mmm: $controller");
+  }
+
+  void onPressedToggle(int index, List<bool> list) {
+    setState(() {
+      for (int i = 0; i < list.length; i++) {
+        list[i] = i == index;
+      }
+    });
+  }
+
   void _submitForm() {
     print("VALOR: $waterSupplyController");
-  }
-}
-
-class RatingBarList extends StatefulWidget {
-  double item;
-  RatingBarList({
-    super.key,
-    required this.item,
-  });
-
-  @override
-  State<RatingBarList> createState() => _RatingBarListState();
-}
-
-class _RatingBarListState extends State<RatingBarList> {
-  @override
-  Widget build(BuildContext context) {
-    return CustomRatingBar(
-        title: "Abastecimeinto de agua",
-        controller: widget.item,
-        onChanged: (double rating) {
-          setState(() {
-            widget.item = rating;
-            print("aqui $rating");
-          });
-        });
   }
 }

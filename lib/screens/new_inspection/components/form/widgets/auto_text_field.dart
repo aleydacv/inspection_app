@@ -7,17 +7,27 @@ class AutoTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      initialValue: value,
-      readOnly: true,
-      autofocus: true,
-      decoration: InputDecoration(
-        border: const OutlineInputBorder(),
-        label: Text(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
           label,
-          style: const TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 18),
         ),
-      ),
+        const SizedBox(height: 5),
+        TextFormField(
+          initialValue: value,
+          style: const TextStyle(fontSize: 16),
+          readOnly: true,
+          autofocus: true,
+          decoration: const InputDecoration(
+              border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              labelStyle: TextStyle(fontWeight: FontWeight.bold),
+              contentPadding: EdgeInsets.all(12)),
+        ),
+        const SizedBox(height: 10),
+      ],
     );
   }
 }

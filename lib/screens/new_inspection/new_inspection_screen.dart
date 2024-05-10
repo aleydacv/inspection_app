@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inspection_app/screens/new_inspection/components/assigned_inspections/inspection_list.dart';
-import 'package:inspection_app/screens/new_inspection/components/stablisment/stablisment_screen.dart';
 
 class NewInspectionScreen extends StatelessWidget {
   const NewInspectionScreen({super.key});
