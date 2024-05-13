@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 class InputTextField extends StatefulWidget {
   final String label;
   final TextEditingController controller;
+  final bool isTitle;
   const InputTextField(
-      {super.key, required this.label, required this.controller});
+      {super.key,
+      required this.label,
+      required this.controller,
+      this.isTitle = true});
 
   @override
   State<InputTextField> createState() => _InputTextFieldState();
@@ -18,7 +22,7 @@ class _InputTextFieldState extends State<InputTextField> {
       children: [
         Text(
           widget.label,
-          style: const TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: widget.isTitle ? 18 : 15),
         ),
         const SizedBox(height: 5),
         TextFormField(

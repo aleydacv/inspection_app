@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/components/biosafety_control.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/components/industrial_security.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/components/pest_control.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/auto_text_field.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_divider.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_field.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/raiting_bar.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/toggle_buttons.dart';
@@ -40,6 +44,26 @@ class _FormScreenState extends State<FormScreen> {
   final List<bool> fireExtinguisher = [false, false, false];
   final List<bool> firstAidKit = [false, false, false];
   final List<bool> sanitaryCi = [false, false];
+
+  final TextEditingController pestName = TextEditingController();
+  final List<bool> pestAuthorization = [false, false];
+  final List<bool> pestReport = [false, false];
+
+  final List<bool> biosafetyProtocol = [false, false];
+  final List<bool> biosafetySigns = [false, false];
+  final List<bool> faceMask = [false, false];
+  final List<bool> disposableGloves = [false, false];
+  final List<bool> hairControl = [false, false];
+  final List<bool> alcohol = [false, false];
+  final List<bool> cleaningLog = [false, false, false];
+  final List<bool> indoorDisinfection = [false, false];
+  final List<bool> outdoorDisinfection = [false, false];
+
+  final TextEditingController desinfectionProduct = TextEditingController();
+  bool controlOilExists = false;
+  final TextEditingController usedOilController = TextEditingController();
+  final TextEditingController observationsController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,7 +114,9 @@ class _FormScreenState extends State<FormScreen> {
                   selectedList: sanitaryCi,
                   options: maleFemaleOptions,
                   title: "Carnet Sanitario",
+                  isTitle: true,
                   onPressed: (int index) => onPressedToggle(index, sanitaryCi)),
+              const CustomDivider(),
               CustomRatingBar(
                   title: "Abastecimiento de agua",
                   controller: waterSupplyController,
@@ -136,24 +162,42 @@ class _FormScreenState extends State<FormScreen> {
                       foodPreservationController = rating - 1;
                     });
                   }),
-              Divider(),
-              CustomToggleButtons(
-                  selectedList: workWear,
-                  options: multipleOptions,
-                  title: "Ropa de Trabajo",
-                  onPressed: (int index) => onPressedToggle(index, workWear)),
-              CustomToggleButtons(
-                  selectedList: fireExtinguisher,
-                  options: multipleOptions,
-                  title: "Extintor",
-                  onPressed: (int index) =>
-                      onPressedToggle(index, fireExtinguisher)),
-              CustomToggleButtons(
-                  selectedList: firstAidKit,
-                  options: multipleOptions,
-                  title: "Botiquin",
-                  onPressed: (int index) =>
-                      onPressedToggle(index, firstAidKit)),
+              const CustomDivider(),
+              IndustrialSecurity(
+                  multipleOptions: multipleOptions,
+                  workWear: workWear,
+                  fireExtinguisher: fireExtinguisher,
+                  firstAidKit: firstAidKit,
+                  onPressedToggle: onPressedToggle),
+              const CustomDivider(),
+              PestControl(
+                  pestName: pestName,
+                  yesNoOptions: yesNoOptions,
+                  pestAuthorization: pestAuthorization,
+                  pestReport: pestReport,
+                  onPressedToggle: onPressedToggle),
+              const CustomDivider(),
+              BiosafetyControl(
+                yesNoOptions: yesNoOptions,
+                multipleOptions: multipleOptions,
+                biosafetyProtocol: biosafetyProtocol,
+                biosafetySigns: biosafetySigns,
+                faceMask: faceMask,
+                disposableGloves: disposableGloves,
+                hairControl: hairControl,
+                alcohol: alcohol,
+                cleaningLog: cleaningLog,
+                indoorDisinfection: indoorDisinfection,
+                outdoorDisinfection: outdoorDisinfection,
+                onPressedToggle: onPressedToggle,
+                desinfectionProduct: desinfectionProduct,
+              ),
+              const CustomDivider(),
+              Switch(
+                  value: controlOilExists,
+                  onChanged: (bool value) {
+                    controlOilExists = value;
+                  }),
             ],
           )),
         ),
@@ -182,6 +226,6 @@ class _FormScreenState extends State<FormScreen> {
   }
 
   void _submitForm() {
-    print("VALOR: $waterSupplyController");
+    print("VALOR: $pestReport");
   }
 }

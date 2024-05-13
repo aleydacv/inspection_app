@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inspection_app/widgets/navigation_bar_app/bottom_navigation_bar.dart';
 import 'package:inspection_app/widgets/navigation_bar_app/navigation_bar.dart';
 
 void main() {
