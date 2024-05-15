@@ -96,7 +96,7 @@ class BiosafetyControl extends StatelessWidget {
           isTitle: false),
       const SizedBox(height: 10),
       const Text(
-        "Realiza la Dsinfeccion:",
+        "Realiza la Desinfeccion:",
         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
       ),
       const SizedBox(height: 10),
