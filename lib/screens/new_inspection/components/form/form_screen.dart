@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:inspection_app/models/form_detail_model.dart';
+import 'package:inspection_app/models/form_model.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/components/biosafety_control.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/components/industrial_security.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/components/pest_control.dart';
@@ -153,8 +155,11 @@ class _FormScreenState extends State<FormScreen> {
                   CustomRatingBar(
                       title: "Abastecimiento de agua",
                       controller: waterSupplyController,
-                      onChanged: (double rating) =>
-                          onChangeRatingBar(rating, waterSupplyController)),
+                      onChanged: (double rating) {
+                        setState(() {
+                          waterSupplyController = rating - 1;
+                        });
+                      }),
                   CustomRatingBar(
                       title: "Estado sanitario de los baños",
                       controller: restroomController,
@@ -303,27 +308,30 @@ class _FormScreenState extends State<FormScreen> {
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
-      print("TODO BIEN $sanitaryCi");
-    }
-    if (!_validateAllLists(allLists)) {
-      print("no todas las listas estan llenas");
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Advertencia'),
-          content: const Text(
-              'Debes seleccionar al menos una opción en todas las listas.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Aceptar'),
-            ),
-          ],
-        ),
-      );
-      return;
+      if (!_validateAllLists(allLists)) {
+        print("no todas las listas están llenas");
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Advertencia'),
+            content: const Text(
+                'Debes seleccionar al menos una opción en todas las listas.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('Aceptar'),
+              ),
+            ],
+          ),
+        );
+      } else {
+        _submitFormModel();
+        _submitFormDetail();
+      }
+    } else {
+      print("formulario inválido");
     }
   }
 
@@ -331,8 +339,48 @@ class _FormScreenState extends State<FormScreen> {
     Navigator.of(context).pop();
   }
 
-  void _iterator(List<bool> list) {
-    for (int i = 0; i < list.length; i++) {}
+  FormModel _submitFormModel() {
+    FormModel form = FormModel(
+        sanitaryNumber: sanitaryController.text,
+        notificationNumber: notificationController.text,
+        sanitaryCi: sanitaryCi.indexWhere((element) => element == true));
+    return form;
+  }
+
+  FormDetailModel _submitFormDetail() {
+    FormDetailModel details = FormDetailModel(
+      waterSupply: waterSupplyController.toInt(),
+      restroom: restroomController.toInt(),
+      wasteDisposal: wasteDisposalController.toInt(),
+      infrastructure: insfrastructureController.toInt(),
+      household: householdController.toInt(),
+      foodPreservation: foodPreservationController.toInt(),
+      workWear: findIndex(workWear),
+      fireExtinguisher: findIndex(fireExtinguisher),
+      firstAidKit: findIndex(firstAidKit),
+      pestName: pestName.text,
+      pestAuthorization: findIndex(pestAuthorization),
+      pestReport: findIndex(pestReport),
+      biosafetyProtocol: findIndex(biosafetyProtocol),
+      biosafetySigns: findIndex(biosafetySigns),
+      faceMask: findIndex(faceMask),
+      disposableGloves: findIndex(disposableGloves),
+      hairControl: findIndex(hairControl),
+      alcohol: findIndex(alcohol),
+      cleaningLog: findIndex(cleaningLog),
+      indoorDisinfection: findIndex(indoorDisinfection),
+      outdoorDisinfection: findIndex(outdoorDisinfection),
+      desinfectionProduct: desinfectionProduct.text,
+      usedOil: usedOil,
+      observations: observations,
+      usedOilValue: usedOilController.text,
+      observationValue: observationsController.text,
+    );
+    return details;
+  }
+
+  int findIndex(List<bool> list) {
+    return list.indexWhere((element) => element == true);
   }
 
   bool _validateAllLists(List<List<bool>> lists) {
