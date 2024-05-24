@@ -38,11 +38,12 @@ class _CustomRatingBarState extends State<CustomRatingBar> {
     return RatingBar.builder(
         initialRating: 0,
         minRating: 0,
-        itemSize: 55,
+        itemSize: 60,
         direction: Axis.horizontal,
         tapOnlyMode: false,
         itemCount: 6,
-        itemPadding: const EdgeInsets.symmetric(horizontal: 3.0),
+        //modificar de acuerdo al tamaño de pantalla
+        itemPadding: const EdgeInsets.symmetric(horizontal: 30.0),
         itemBuilder: (context, index) {
           return Column(
             children: [

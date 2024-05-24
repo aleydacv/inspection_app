@@ -59,8 +59,8 @@ class CustomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 160,
-      height: 160,
+      width: 180,
+      height: 180,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,
@@ -70,8 +70,7 @@ class CustomIconButton extends StatelessWidget {
               blurRadius: 1,
               offset: const Offset(0, 1),
             )
-          ]
-          ),
+          ]),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             shape: const RoundedRectangleBorder(

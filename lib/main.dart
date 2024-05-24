@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:inspection_app/widgets/navigation_bar_app/navigation_bar.dart';
+import 'package:inspection_app/widget/navigation_bar_app/navigation_bar.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
+ 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override

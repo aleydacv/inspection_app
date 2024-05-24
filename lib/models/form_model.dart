@@ -1,17 +1,30 @@
 class FormModel {
+  int? id;
   String sanitaryNumber;
   String notificationNumber;
-  int sanitaryCi;
+  int maleSanitaryCi;
+  int femaleSanitaryCi;
   FormModel(
-      {required this.sanitaryNumber,
+      {this.id,
+      required this.sanitaryNumber,
       required this.notificationNumber,
-      required this.sanitaryCi});
+      required this.maleSanitaryCi,
+      required this.femaleSanitaryCi});
 
-  Map<String, String> toMap() {
+  factory FormModel.fromMap(Map<String, dynamic> map) {
+    return FormModel(
+        sanitaryNumber: map['sanitary_auth_num'],
+        notificationNumber: map['notification_reference_num'],
+        maleSanitaryCi: map['male_sanitary_ci'],
+        femaleSanitaryCi: map['female_sanitary_ci']);
+  }
+  Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'sanitary_auth_num': sanitaryNumber,
       'notification_reference_num': notificationNumber,
-      'sanitary_ci': sanitaryCi == 0 ? "Male" : "Female",
+      'male_sanitary_ci': maleSanitaryCi,
+      'female_sanitary_ci': femaleSanitaryCi
     };
   }
 }

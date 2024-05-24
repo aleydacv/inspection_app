@@ -5,11 +5,12 @@ import 'package:inspection_app/screens/new_inspection/components/form/components
 import 'package:inspection_app/screens/new_inspection/components/form/components/industrial_security.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/components/pest_control.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/auto_text_field.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_date_picker.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_divider.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_switch_button.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_fiel_sanitary_ci.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_field.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/raiting_bar.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/toggle_buttons.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -22,13 +23,16 @@ class _FormScreenState extends State<FormScreen> {
   final _formKey = GlobalKey<FormState>();
   final sanitaryController = TextEditingController();
   final notificationController = TextEditingController();
+  final TextEditingController countMaleCi = TextEditingController();
+  final TextEditingController countFemaleCi = TextEditingController();
   double waterSupplyController = 0;
   double restroomController = 0;
   double wasteDisposalController = 0;
   double insfrastructureController = 0;
   double householdController = 0;
   double foodPreservationController = 0;
-  //bool sanitaryCI = false;
+  bool sanitaryCI = false;
+  DateTime currentDate = DateTime.now();
 
   final List<Widget> multipleOptions = [
     const Text("Si"),
@@ -39,15 +43,10 @@ class _FormScreenState extends State<FormScreen> {
     const Text("Si"),
     const Text("No"),
   ];
-  final List<Widget> maleFemaleOptions = [
-    const Icon(Icons.male_rounded),
-    const Icon(Icons.female_rounded)
-  ];
 
   final List<bool> workWear = [false, false, false];
   final List<bool> fireExtinguisher = [false, false, false];
   final List<bool> firstAidKit = [false, false, false];
-  final List<bool> sanitaryCi = [false, false];
 
   final TextEditingController pestName = TextEditingController();
   final List<bool> pestAuthorization = [false, false];
@@ -69,13 +68,15 @@ class _FormScreenState extends State<FormScreen> {
   bool observations = true;
   final TextEditingController observationsController = TextEditingController();
 
+  bool reschedule = false;
+  final TextEditingController dateController = TextEditingController();
+
   late List<List<bool>> allLists;
 
   @override
   void initState() {
     super.initState();
     allLists = [
-      sanitaryCi,
       workWear,
       fireExtinguisher,
       firstAidKit,
@@ -105,7 +106,7 @@ class _FormScreenState extends State<FormScreen> {
               })),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(30.0),
           child: Form(
               key: _formKey,
               child: Column(
@@ -134,9 +135,10 @@ class _FormScreenState extends State<FormScreen> {
                     label: "Direccion",
                     value: "Venta de cafe",
                   ),
-                  const AutoTextField(
+                  AutoTextField(
                     label: "Fecha",
-                    value: "Venta de cafe",
+                    value:
+                        "${currentDate.day}/${currentDate.month}/${currentDate.year}",
                   ),
                   InputTextField(
                       label: "N° Autorizacion Sanitaria",
@@ -144,13 +146,17 @@ class _FormScreenState extends State<FormScreen> {
                   InputTextField(
                       label: "N° Notificacion Comprobante",
                       controller: notificationController),
-                  CustomToggleButtons(
-                      selectedList: sanitaryCi,
-                      options: maleFemaleOptions,
-                      title: "Carnet Sanitario",
-                      isTitle: true,
-                      onPressed: (int index) =>
-                          onPressedToggle(index, sanitaryCi)),
+                  CustomSwitchButton(
+                      label: "Cuenta con Carnets Sanitarios",
+                      value: sanitaryCI,
+                      onChange: (bool value) => {
+                            setState(() {
+                              sanitaryCI = value;
+                            })
+                          }),
+                  if (sanitaryCI)
+                    InputFieldSanitaryCi(
+                        countMaleCi: countMaleCi, countFemaleCi: countFemaleCi),
                   const CustomDivider(),
                   CustomRatingBar(
                       title: "Abastecimiento de agua",
@@ -232,7 +238,7 @@ class _FormScreenState extends State<FormScreen> {
                   ),
                   const CustomDivider(),
                   CustomSwitchButton(
-                      label: "Aplica Aceite Usado",
+                      label: "Hace uso de aceite",
                       value: usedOil,
                       onChange: (bool value) => {
                             setState(() {
@@ -241,7 +247,7 @@ class _FormScreenState extends State<FormScreen> {
                           }),
                   if (usedOil)
                     InputTextField(
-                      label: "Que hace con el aceite",
+                      label: "¿Qué hace con el aceite usado?",
                       controller: usedOilController,
                       addLines: true,
                       isTitle: false,
@@ -261,13 +267,23 @@ class _FormScreenState extends State<FormScreen> {
                       addLines: true,
                       isTitle: false,
                     ),
+                  CustomSwitchButton(
+                      label: "Reprogramar otra inspección",
+                      value: reschedule,
+                      onChange: (bool value) => {
+                            setState(() {
+                              reschedule = value;
+                            })
+                          }),
+                  if (reschedule)
+                    ScheduleInputField(dateController: dateController),
                   ElevatedButton(
                     onPressed: _submitForm,
                     style: const ButtonStyle(
                         minimumSize:
-                            MaterialStatePropertyAll(Size.fromHeight(50)),
+                            WidgetStatePropertyAll(Size.fromHeight(50)),
                         backgroundColor:
-                            MaterialStatePropertyAll(Colors.deepPurple)),
+                            WidgetStatePropertyAll(Colors.deepPurple)),
                     child: const Text(
                       'Guardar',
                       style: TextStyle(color: Colors.white, fontSize: 18),
@@ -276,8 +292,7 @@ class _FormScreenState extends State<FormScreen> {
                   ElevatedButton(
                     onPressed: _cancelForm,
                     style: const ButtonStyle(
-                      minimumSize:
-                          MaterialStatePropertyAll(Size.fromHeight(50)),
+                      minimumSize: WidgetStatePropertyAll(Size.fromHeight(50)),
                     ),
                     child: const Text(
                       'Cancelar',
@@ -295,7 +310,6 @@ class _FormScreenState extends State<FormScreen> {
     setState(() {
       controller = rating - 1;
     });
-    print("mmm: $controller");
   }
 
   void onPressedToggle(int index, List<bool> list) {
@@ -309,7 +323,6 @@ class _FormScreenState extends State<FormScreen> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       if (!_validateAllLists(allLists)) {
-        print("no todas las listas están llenas");
         showDialog(
           context: context,
           builder: (context) => AlertDialog(
@@ -327,12 +340,18 @@ class _FormScreenState extends State<FormScreen> {
           ),
         );
       } else {
-        _submitFormModel();
-        _submitFormDetail();
+        FormModel a = _submitFormModel();
+        print("form ${a.toMap()}");
+        _submitFormDetail(1);
       }
     } else {
       print("formulario inválido");
     }
+  }
+
+  Future<int> _submitFormDB(FormModel form) async {
+    try {} catch (identifier) {}
+    return 1;
   }
 
   void _cancelForm() {
@@ -343,12 +362,14 @@ class _FormScreenState extends State<FormScreen> {
     FormModel form = FormModel(
         sanitaryNumber: sanitaryController.text,
         notificationNumber: notificationController.text,
-        sanitaryCi: sanitaryCi.indexWhere((element) => element == true));
+        maleSanitaryCi: sanitaryCI ? int.parse(countMaleCi.text) : 0,
+        femaleSanitaryCi: sanitaryCI ? int.parse(countFemaleCi.text) : 0);
     return form;
   }
 
-  FormDetailModel _submitFormDetail() {
+  FormDetailModel _submitFormDetail(int id) {
     FormDetailModel details = FormDetailModel(
+      formId: id,
       waterSupply: waterSupplyController.toInt(),
       restroom: restroomController.toInt(),
       wasteDisposal: wasteDisposalController.toInt(),

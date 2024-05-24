@@ -38,13 +38,13 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
               label: 'Inicio',
             ),
             NavigationDestination(
-              icon: Icon(Icons.person_2_outlined),
+              icon: Icon(Icons.person_outline),
               selectedIcon: Icon(Icons.person),
               label: 'Perfil',
             ),
             NavigationDestination(
-              icon: Icon(Icons.edit),
-              selectedIcon: Icon(Icons.edit_document),
+              icon: Icon(Icons.description_outlined),
+              selectedIcon: Icon(Icons.description),
               label: 'Inspeccionar',
             ),
           ]),
