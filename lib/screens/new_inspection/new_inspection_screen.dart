@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inspection_app/screens/new_inspection/components/assigned_inspections/inspection_list.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class NewInspectionScreen extends StatelessWidget {
   const NewInspectionScreen({super.key});
@@ -59,8 +60,8 @@ class CustomIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 180,
-      height: 180,
+      width: 0.43.sw,
+      height: 0.3.sh,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           color: Colors.white,

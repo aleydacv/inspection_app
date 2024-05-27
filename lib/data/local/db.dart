@@ -3,7 +3,7 @@ import "package:inspection_app/models/form_model.dart";
 import "package:sqflite/sqflite.dart";
 import "package:path/path.dart";
 
-class DB {
+class DataBase {
   static Future<Database> _openDB() async {
     String path = join(await getDatabasesPath(), 'inspection.db');
     var database = await openDatabase(path, version: 1, onCreate: initDB);
@@ -21,7 +21,7 @@ class DB {
 
     await database.execute("CREATE TABLE form_detail("
         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "form_id INTEGER"
+        "form_id INTEGER,"
         "water_supply INTEGER,"
         "restroom_conditions INTEGER,"
         "waste_disposal INTEGER,"
@@ -40,19 +40,23 @@ class DB {
         "disposable_gloves INTEGER,"
         "hair_control INTEGER,"
         "alcohol INTEGER,"
-        "cleaning_log INTERGER"
+        "cleaning_log INTERGER,"
         "indoor_disinfection INTEGER,"
         "outdoor_disinfection INTEGER,"
         "desinfection_product TEXT,"
         "used_oil INTEGER,"
         "observations TEXT,"
-        "FOREIGNER KEY (form_id) REFERENCES form (id)"
+        "FOREIGN KEY (form_id) REFERENCES form (id)"
         ")");
   }
 
-  static Future<void> insertForm(FormModel form) async {
-    Database database = await _openDB();
-    database.insert("form", form.toMap());
+  static Future<int> insertForm(FormModel form) async {
+    try {
+      Database database = await _openDB();
+      return database.insert("form", form.toMap());
+    } catch (e) {
+      throw Exception("Failed to insert form.");
+    }
   }
 
   static Future<List<FormModel>> getForms() async {
@@ -62,8 +66,12 @@ class DB {
   }
 
   static Future<void> insertFormDetail(FormDetailModel detail) async {
-    Database database = await _openDB();
-    database.insert("form_detail", detail.toMap());
+    try {
+      Database database = await _openDB();
+      database.insert("form_detail", detail.toMap());
+    } catch (e) {
+      throw Exception("Failed to insert form detail.");
+    }
   }
 
   static Future<List<FormDetailModel>> getFormDetail() async {

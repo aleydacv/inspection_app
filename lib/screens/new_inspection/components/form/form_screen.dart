@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inspection_app/models/form_detail_model.dart';
 import 'package:inspection_app/models/form_model.dart';
+import 'package:inspection_app/screens/new_inspection/components/assigned_inspections/inspection_list.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/components/biosafety_control.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/components/industrial_security.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/components/pest_control.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/auto_text_field.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_date_picker.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_divider.dart';
+import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_show_dialog.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_switch_button.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_fiel_sanitary_ci.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_field.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/raiting_bar.dart';
+import 'package:inspection_app/data/local/db.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -106,7 +110,7 @@ class _FormScreenState extends State<FormScreen> {
               })),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(30.0),
+          padding: EdgeInsets.all(ScreenUtil().setWidth(15)),
           child: Form(
               key: _formKey,
               child: Column(
@@ -323,35 +327,51 @@ class _FormScreenState extends State<FormScreen> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       if (!_validateAllLists(allLists)) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('Advertencia'),
-            content: const Text(
-                'Debes seleccionar al menos una opción en todas las listas.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('Aceptar'),
-              ),
-            ],
-          ),
-        );
+        CustomShowDialog.show(
+            context: context,
+            title: 'Advertencia',
+            content:
+                'Debes seleccionar al menos una opción en todas las listas.',
+            icon: Icons.warning_rounded,
+            iconColor: Colors.amber.shade300);
       } else {
-        FormModel a = _submitFormModel();
-        print("form ${a.toMap()}");
-        _submitFormDetail(1);
+        _submitToDataBase();
       }
-    } else {
-      print("formulario inválido");
     }
   }
 
-  Future<int> _submitFormDB(FormModel form) async {
-    try {} catch (identifier) {}
-    return 1;
+  Future<void> _submitToDataBase() async {
+    try {
+      FormModel form = _submitFormModel();
+      int formId = await DataBase.insertForm(form);
+      print("ID: $formId");
+      FormDetailModel detail = _submitFormDetail(formId);
+      await DataBase.insertFormDetail(detail);
+
+      List<FormModel> forms = await DataBase.getForms();
+      print("Forms: $forms");
+
+      List<FormDetailModel> formDetails = await DataBase.getDetailById(formId);
+      print("Form Details: ${formDetails}");
+    } catch (e) {
+      throw Exception('Error al intentar guardar el formulario');
+    }
+    goToBack();
+  }
+
+  void goToBack() {
+    CustomShowDialog.show(
+        context: context,
+        title: '',
+        content: 'El formulario se guardo con éxito.',
+        icon: Icons.task_alt_rounded,
+        iconColor: Colors.lightGreenAccent,
+        onPressed: () {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const InspectionList()),
+              (Route<dynamic> route) => false);
+        });
   }
 
   void _cancelForm() {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomRatingBar extends StatefulWidget {
   final String title;
@@ -38,12 +39,13 @@ class _CustomRatingBarState extends State<CustomRatingBar> {
     return RatingBar.builder(
         initialRating: 0,
         minRating: 0,
-        itemSize: 60,
+        itemSize: ScreenUtil().setWidth(48),
         direction: Axis.horizontal,
         tapOnlyMode: false,
         itemCount: 6,
-        //modificar de acuerdo al tamaño de pantalla
-        itemPadding: const EdgeInsets.symmetric(horizontal: 30.0),
+        //modificar de acuerdo al tamaño de pantalla: 3 celulares / 30 tablets
+        itemPadding:
+            EdgeInsets.symmetric(horizontal: ScreenUtil().setHeight(3)),
         itemBuilder: (context, index) {
           return Column(
             children: [
