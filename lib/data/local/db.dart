@@ -5,9 +5,19 @@ import "package:path/path.dart";
 
 class DataBase {
   static Future<Database> _openDB() async {
+    //await delete();
     String path = join(await getDatabasesPath(), 'inspection.db');
-    var database = await openDatabase(path, version: 1, onCreate: initDB);
+    var database = await openDatabase(path, version: 2, onCreate: initDB);
     return database;
+  }
+
+  static Future<void> delete() async {
+    String pd = await getDatabasesPath();
+    String path = join(pd, 'inspection.db');
+    bool exist = await databaseExists(path);
+    if (exist) {
+      await deleteDatabase(path);
+    }
   }
 
   static void initDB(Database database, int version) async {
@@ -27,10 +37,10 @@ class DataBase {
         "waste_disposal INTEGER,"
         "general_infrastructure INTEGER,"
         "household_items INTEGER,"
-        "food_preservations INTEGER,"
+        "food_preservation INTEGER,"
         "workwear INTEGER,"
         "fire_extinguisher INTEGER,"
-        "first_aid_kid INTEGER,"
+        "first_aid_kit INTEGER,"
         "pest_name TEXT,"
         "pest_authorization INTEGER,"
         "pest_technical_report INTEGER,"
@@ -60,9 +70,13 @@ class DataBase {
   }
 
   static Future<List<FormModel>> getForms() async {
-    Database database = await _openDB();
-    final List<Map<String, dynamic>> formMap = await database.query("form");
-    return formMap.map((map) => FormModel.fromMap(map)).toList();
+    try {
+      Database database = await _openDB();
+      final List<Map<String, dynamic>> formMap = await database.query("form");
+      return formMap.map((map) => FormModel.fromMap(map)).toList();
+    } catch (e) {
+      throw Exception("Failed to get forms.");
+    }
   }
 
   static Future<void> insertFormDetail(FormDetailModel detail) async {
@@ -75,19 +89,27 @@ class DataBase {
   }
 
   static Future<List<FormDetailModel>> getFormDetail() async {
-    Database database = await _openDB();
-    final List<Map<String, dynamic>> details =
-        await database.query("form_detail");
-    return details.map((map) => FormDetailModel.fromMap(map)).toList();
+    try {
+      Database database = await _openDB();
+      final List<Map<String, dynamic>> details =
+          await database.query("form_detail");
+      return details.map((map) => FormDetailModel.fromMap(map)).toList();
+    } catch (e) {
+      throw Exception("Failed to get form detail.");
+    }
   }
 
   static Future<List<FormDetailModel>> getDetailById(int formId) async {
-    Database database = await _openDB();
-    final List<Map<String, dynamic>> detailById = await database.query(
-      'formdetail',
-      where: 'form_id = ?',
-      whereArgs: [formId],
-    );
-    return detailById.map((map) => FormDetailModel.fromMap(map)).toList();
+    try {
+      Database database = await _openDB();
+      final List<Map<String, dynamic>> detailById = await database.query(
+        'form_detail',
+        where: 'form_id = ?',
+        whereArgs: [formId],
+      );
+      return detailById.map((map) => FormDetailModel.fromMap(map)).toList();
+    } catch (e) {
+      throw Exception("Failed to get form detail by Id.");
+    }
   }
 }

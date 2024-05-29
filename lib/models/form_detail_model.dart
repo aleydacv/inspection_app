@@ -34,8 +34,7 @@ class FormDetailModel {
   String? observationValue;
 
   FormDetailModel(
-      {
-      this.id,
+      {this.id,
       required this.formId,
       required this.waterSupply,
       required this.restroom,
@@ -71,27 +70,29 @@ class FormDetailModel {
         waterSupply: map['water_supply'],
         restroom: map['restroom_conditions'],
         wasteDisposal: map['waste_disposal'],
-        infrastructure: map['general_infraestructure'],
+        infrastructure: map['general_infrastructure'],
         household: map['household_items'],
         foodPreservation: map['food_preservation'],
         workWear: map['workwear'],
         fireExtinguisher: map['fire_extinguisher'],
-        firstAidKit: map['first:aid_kit'],
+        firstAidKit: map['first_aid_kit'],
         pestName: map['pest_name'],
         pestAuthorization: map['pest_authorization'],
         pestReport: map['pest_technical_report'],
         biosafetyProtocol: map['biosafety_protocol'],
         biosafetySigns: map['biosafety_signs'],
         faceMask: map['face_mask'],
-        disposableGloves: map['disposables_gloves'],
+        disposableGloves: map['disposable_gloves'],
         hairControl: map['hair_control'],
         alcohol: map['alcohol'],
         cleaningLog: map['cleaning_log'],
         indoorDisinfection: map['indoor_disinfection'],
         outdoorDisinfection: map['outdoor_disinfection'],
         desinfectionProduct: map['desinfection_product'],
-        usedOil: map['used_oil'],
-        observations: map['observations']);
+        usedOil: true,
+        usedOilValue: map['used_oil'],
+        observations: true,
+        observationValue: map['observations']);
   }
 
   Map<String, dynamic> toMap() {
@@ -103,10 +104,10 @@ class FormDetailModel {
       'waste_disposal': wasteDisposal,
       'general_infrastructure': infrastructure,
       'household_items': household,
-      'food_preservations': foodPreservation,
+      'food_preservation': foodPreservation,
       'workwear': workWear,
       'fire_extinguisher': fireExtinguisher,
-      'first_aid_kid': fireExtinguisher,
+      'first_aid_kit': fireExtinguisher,
       'pest_name': pestName,
       'pest_authorization': pestAuthorization,
       'pest_technical_report': pestReport,

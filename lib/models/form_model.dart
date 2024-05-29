@@ -13,6 +13,7 @@ class FormModel {
 
   factory FormModel.fromMap(Map<String, dynamic> map) {
     return FormModel(
+        id: map['id'],
         sanitaryNumber: map['sanitary_auth_num'],
         notificationNumber: map['notification_reference_num'],
         maleSanitaryCi: map['male_sanitary_ci'],

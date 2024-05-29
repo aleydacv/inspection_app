@@ -5,12 +5,15 @@ class CustomShowDialog {
       {required BuildContext context,
       required String title,
       required String content,
+      required bool dismissible,
       IconData? icon,
       Color? iconColor,
       VoidCallback? onPressed}) {
     showDialog(
       context: context,
+      barrierDismissible: dismissible,
       builder: (context) => AlertDialog(
+        backgroundColor: Colors.white,
         icon: Icon(
           icon,
           size: 50,

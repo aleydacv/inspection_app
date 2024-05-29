@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:inspection_app/data/local/db.dart';
+import 'package:inspection_app/models/form_detail_model.dart';
+import 'package:inspection_app/models/form_model.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/form_screen.dart';
 
 class InspectionList extends StatelessWidget {
@@ -8,8 +11,12 @@ class InspectionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Inspecciones Asignadas"),
-      ),
+          title: const Text("Inspecciones Asignadas"),
+          leading: IconButton(
+              icon: const Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.of(context).pop();
+              })),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: ListView.builder(
@@ -36,8 +43,11 @@ class CostumListItem extends StatelessWidget {
           height: 10,
         ),
         ListTile(
-          onTap: () {
-            print("guatafak");
+          onTap: () async {
+            /*List<FormModel> forms = await DataBase.getForms();
+            print("Forms aqui: ${forms[0].toMap()}");
+            List<FormDetailModel> detail = await DataBase.getDetailById(1);
+            print("Forms aqui: ${detail[0].toMap()}");*/
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => const FormScreen()),

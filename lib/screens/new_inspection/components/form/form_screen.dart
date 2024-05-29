@@ -329,11 +329,12 @@ class _FormScreenState extends State<FormScreen> {
       if (!_validateAllLists(allLists)) {
         CustomShowDialog.show(
             context: context,
-            title: 'Advertencia',
+            title: 'Error!',
             content:
                 'Debes seleccionar al menos una opción en todas las listas.',
+            dismissible: true,
             icon: Icons.warning_rounded,
-            iconColor: Colors.amber.shade300);
+            iconColor: Colors.red.shade800);
       } else {
         _submitToDataBase();
       }
@@ -356,21 +357,25 @@ class _FormScreenState extends State<FormScreen> {
     } catch (e) {
       throw Exception('Error al intentar guardar el formulario');
     }
+    List<FormDetailModel> formDetails = await DataBase.getDetailById(1);
+    print("Form Details: ${formDetails}");
     goToBack();
   }
 
   void goToBack() {
     CustomShowDialog.show(
         context: context,
-        title: '',
+        title: 'Guardado!',
         content: 'El formulario se guardo con éxito.',
         icon: Icons.task_alt_rounded,
-        iconColor: Colors.lightGreenAccent,
+        iconColor: Colors.green,
+        dismissible: false,
         onPressed: () {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const InspectionList()),
-              (Route<dynamic> route) => false);
+          Navigator.pop(context);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const InspectionList()),
+          );
         });
   }
 
