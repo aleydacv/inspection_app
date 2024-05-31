@@ -15,6 +15,7 @@ import 'package:inspection_app/screens/new_inspection/components/form/widgets/in
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_field.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/raiting_bar.dart';
 import 'package:inspection_app/data/local/db.dart';
+import 'package:inspection_app/screens/new_inspection/new_inspection_screen.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -101,8 +102,14 @@ class _FormScreenState extends State<FormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-          title: const Text("Formulario"),
+          title: const Text(
+            "Formulario",
+            style: TextStyle(
+              fontSize: 18,
+            ),
+          ),
           leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios),
               onPressed: () {
@@ -371,11 +378,9 @@ class _FormScreenState extends State<FormScreen> {
         iconColor: Colors.green,
         dismissible: false,
         onPressed: () {
-          Navigator.pop(context);
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const InspectionList()),
-          );
+          Navigator.of(context)
+            ..pop()
+            ..pop();
         });
   }
 

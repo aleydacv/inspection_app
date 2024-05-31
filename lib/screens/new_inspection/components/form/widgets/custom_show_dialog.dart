@@ -12,24 +12,27 @@ class CustomShowDialog {
     showDialog(
       context: context,
       barrierDismissible: dismissible,
-      builder: (context) => AlertDialog(
-        backgroundColor: Colors.white,
-        icon: Icon(
-          icon,
-          size: 50,
-        ),
-        iconColor: iconColor,
-        title: Text(title),
-        content: Text(
-          content,
-          textAlign: TextAlign.center,
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: onPressed ?? () => Navigator.of(context).pop(),
-            child: const Text('Aceptar'),
+      builder: (context) => PopScope(
+        canPop: dismissible,
+        child: AlertDialog(
+          backgroundColor: Colors.white,
+          icon: Icon(
+            icon,
+            size: 50,
           ),
-        ],
+          iconColor: iconColor,
+          title: Text(title),
+          content: Text(
+            content,
+            textAlign: TextAlign.center,
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: onPressed ?? () => Navigator.of(context).pop(),
+              child: const Text('Aceptar'),
+            ),
+          ],
+        ),
       ),
     );
   }

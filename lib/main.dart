@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inspection_app/screens/login.dart';
 import 'package:inspection_app/widget/navigation_bar_app/navigation_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             scaffoldBackgroundColor: const Color(0xFFF6F5FA),
           ),
-          home: const CustomNavigationBar(),
+          home: const Login(),
         );
       },
     );
