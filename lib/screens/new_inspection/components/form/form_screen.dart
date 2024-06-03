@@ -17,6 +17,8 @@ import 'package:inspection_app/screens/new_inspection/components/form/widgets/ra
 import 'package:inspection_app/data/local/db.dart';
 import 'package:inspection_app/screens/new_inspection/new_inspection_screen.dart';
 
+import '../../../../widget/custom_button.dart';
+
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
 
@@ -288,28 +290,16 @@ class _FormScreenState extends State<FormScreen> {
                           }),
                   if (reschedule)
                     ScheduleInputField(dateController: dateController),
-                  ElevatedButton(
-                    onPressed: _submitForm,
-                    style: const ButtonStyle(
-                        minimumSize:
-                            WidgetStatePropertyAll(Size.fromHeight(50)),
-                        backgroundColor:
-                            WidgetStatePropertyAll(Colors.deepPurple)),
-                    child: const Text(
-                      'Guardar',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
-                    ),
-                  ),
-                  ElevatedButton(
-                    onPressed: _cancelForm,
-                    style: const ButtonStyle(
-                      minimumSize: WidgetStatePropertyAll(Size.fromHeight(50)),
-                    ),
-                    child: const Text(
-                      'Cancelar',
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                    ),
-                  )
+                  CustomButton(
+                      title: 'Guardar',
+                      onPressed: _submitForm,
+                      colorButton: Colors.deepPurple,
+                      colorText: Colors.white),
+                  CustomButton(
+                      title: 'Cancel',
+                      onPressed: _cancelForm,
+                      colorButton: Colors.grey,
+                      colorText: Colors.black)
                 ],
               )),
         ),
