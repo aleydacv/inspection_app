@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:inspection_app/services/use_service.dart';
 import 'package:inspection_app/widget/custom_button.dart';
 import 'package:inspection_app/widget/general_input_fiel.dart';
 
@@ -10,9 +13,11 @@ class LoginPage extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     final user = TextEditingController();
     final password = TextEditingController();
-    void submitForm() {
+    void submitForm() async {
       if (formKey.currentState!.validate()) {
-        print("sin errores");
+        final res = await UseService.loginUser(user.text, password.text);
+        print("Data: ${res['data']}");
+        print("error: ${res['error']}");
       }
     }
 
