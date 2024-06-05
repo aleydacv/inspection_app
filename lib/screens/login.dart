@@ -1,9 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:inspection_app/models/login_model.dart';
+import 'package:inspection_app/widget/custom_show_dialog.dart';
 import 'package:inspection_app/services/use_service.dart';
 import 'package:inspection_app/widget/custom_button.dart';
 import 'package:inspection_app/widget/general_input_fiel.dart';
+import 'package:path/path.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -13,11 +14,31 @@ class LoginPage extends StatelessWidget {
     final formKey = GlobalKey<FormState>();
     final user = TextEditingController();
     final password = TextEditingController();
+
+    void showDialog(String message) {
+      CustomShowDialog.show(
+          context: context,
+          title: 'Error',
+          content: message,
+          dismissible: true,
+          icon: Icons.error_outline,
+          iconColor: Colors.red);
+    }
+
     void submitForm() async {
       if (formKey.currentState!.validate()) {
         final res = await UseService.loginUser(user.text, password.text);
-        print("Data: ${res['data']}");
-        print("error: ${res['error']}");
+        print("error ${res['error']}");
+        if (res['data'] != null) {
+          final loginResponse = LoginModel.fromJsom(res['data']);
+          saveToken(loginResponse.token);
+          final token = await getToken();
+          print("Token : $token");
+        } else {
+          user.clear;
+          password.clear;
+          showDialog(res['error']);
+        }
       }
     }
 

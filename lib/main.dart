@@ -4,6 +4,7 @@ import 'package:inspection_app/widget/navigation_bar_app/navigation_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

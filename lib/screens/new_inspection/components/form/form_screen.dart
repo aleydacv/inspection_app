@@ -9,7 +9,7 @@ import 'package:inspection_app/screens/new_inspection/components/form/components
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/auto_text_field.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_date_picker.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_divider.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_show_dialog.dart';
+import 'package:inspection_app/widget/custom_show_dialog.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_switch_button.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_fiel_sanitary_ci.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_field.dart';

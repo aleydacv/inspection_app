@@ -7,14 +7,36 @@ class ServiceRequest {
   static const _endpoint = 'https://reqres.in/';
 
   static Future<Map<String, dynamic>> postService(
-      String param, Map<String, dynamic> body) async {
+      String param, Map<String, dynamic> body,
+      {Map<String, String>? headers}) async {
     Map<String, dynamic> res = {'data': null, 'error': null};
     try {
       final url = Uri.parse(_endpoint + param);
-      print("url: $url");
       final response = await http.post(url,
-          headers: {HttpHeaders.contentTypeHeader: 'application/json'},
+          headers:
+              headers ?? {HttpHeaders.contentTypeHeader: 'application/json'},
           body: jsonEncode(body));
+      if (response.statusCode == 200) {
+        res['data'] = jsonDecode(response.body);
+      } else {
+        final errorResponse = jsonDecode(response.body);
+        final message = errorResponse['error'];
+        res['error'] = 'Error en la solicitud: $message';
+      }
+    } catch (error) {
+      res['error'] = 'Algo salió mal: $error';
+    }
+    return res;
+  }
+
+  static Future<Map<String, dynamic>> getService(String param) async {
+    Map<String, dynamic> res = {'data': null, 'error': null};
+    try {
+      final url = Uri.parse(_endpoint + param);
+      final response = await http.get(url, headers: {
+        HttpHeaders.contentTypeHeader: '/application/json',
+        HttpHeaders.authorizationHeader: 'Bearer: '
+      });
       if (response.statusCode == 200) {
         res['data'] = jsonDecode(response.body);
       } else {
