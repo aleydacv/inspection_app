@@ -4,16 +4,16 @@ import 'package:inspection_app/widget/custom_show_dialog.dart';
 import 'package:inspection_app/services/use_service.dart';
 import 'package:inspection_app/widget/custom_button.dart';
 import 'package:inspection_app/widget/general_input_fiel.dart';
-//import 'package:inspection_app/widget/navigation_bar_app/navigation_bar.dart';
+import 'package:inspection_app/widget/navigation_bar.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final _user = TextEditingController();
   final _password = TextEditingController();
@@ -47,8 +47,8 @@ class _LoginPageState extends State<LoginPage> {
 
     void goTo() {
       print("viene aqui  no ");
-      // Navigator.pushReplacement(context,
-      //   MaterialPageRoute(builder: (context) => const CustomNavigationBar()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const CustomNavigationBar()));
     }
 
     void submitForm() async {
