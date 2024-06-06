@@ -4,46 +4,76 @@ import 'package:inspection_app/widget/custom_show_dialog.dart';
 import 'package:inspection_app/services/use_service.dart';
 import 'package:inspection_app/widget/custom_button.dart';
 import 'package:inspection_app/widget/general_input_fiel.dart';
-import 'package:path/path.dart';
+//import 'package:inspection_app/widget/navigation_bar_app/navigation_bar.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
-    final user = TextEditingController();
-    final password = TextEditingController();
+  State<LoginPage> createState() => _LoginPageState();
+}
 
+class _LoginPageState extends State<LoginPage> {
+  final formKey = GlobalKey<FormState>();
+  final _user = TextEditingController();
+  final _password = TextEditingController();
+  final _userFocus = FocusNode();
+  final _passFocus = FocusNode();
+  bool _isLoading = false;
+  @override
+  void dispose() {
+    _user.dispose();
+    _password.dispose();
+    _userFocus.dispose();
+    _passFocus.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     void showDialog(String message) {
-      CustomShowDialog.show(
-          context: context,
-          title: 'Error',
-          content: message,
-          dismissible: true,
-          icon: Icons.error_outline,
-          iconColor: Colors.red);
+      FocusScope.of(context).requestFocus(FocusNode());
+      FocusScope.of(context).unfocus();
+      Future.delayed(const Duration(milliseconds: 50), () {
+        CustomShowDialog.show(
+            context: context,
+            title: 'Error',
+            content: message,
+            dismissible: true,
+            icon: Icons.error_outline,
+            iconColor: Colors.red);
+      });
+    }
+
+    void goTo() {
+      print("viene aqui  no ");
+      // Navigator.pushReplacement(context,
+      //   MaterialPageRoute(builder: (context) => const CustomNavigationBar()));
     }
 
     void submitForm() async {
       if (formKey.currentState!.validate()) {
-        final res = await UseService.loginUser(user.text, password.text);
-        print("error ${res['error']}");
+        setState(() {
+          _isLoading = true;
+        });
+        FocusScope.of(context).unfocus();
+        final res = await UseService.loginUser(_user.text, _password.text);
+        setState(() {
+          _isLoading = false;
+        });
         if (res['data'] != null) {
           final loginResponse = LoginModel.fromJsom(res['data']);
           saveToken(loginResponse.token);
-          final token = await getToken();
-          print("Token : $token");
+          goTo();
         } else {
-          user.clear;
-          password.clear;
+          _user.clear();
+          _password.clear();
           showDialog(res['error']);
         }
       }
     }
 
     return Scaffold(
-      //backgroundColor: Colors.indigoAccent.shade100,
       body: Container(
         decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -81,22 +111,26 @@ class LoginPage extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         GeneralInputField(
-                          controller: user,
+                          controller: _user,
                           hintText: "Usuario",
                           icon: Icons.person,
                           isPassword: false,
+                          focus: _userFocus,
                         ),
                         GeneralInputField(
-                          controller: password,
+                          controller: _password,
                           hintText: "Contraseña",
                           icon: Icons.lock_rounded,
                           isPassword: true,
+                          focus: _passFocus,
                         ),
-                        CustomButton(
-                            title: 'Iniciar',
-                            onPressed: submitForm,
-                            colorButton: Colors.black,
-                            colorText: Colors.white)
+                        _isLoading
+                            ? const CircularProgressIndicator()
+                            : CustomButton(
+                                title: 'Iniciar',
+                                onPressed: submitForm,
+                                colorButton: Colors.black,
+                                colorText: Colors.white)
                       ],
                     ),
                   ),

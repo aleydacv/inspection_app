@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inspection_app/screens/login.dart';
-import 'package:inspection_app/widget/navigation_bar_app/navigation_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {

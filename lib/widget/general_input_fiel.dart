@@ -6,13 +6,16 @@ class GeneralInputField extends StatefulWidget {
   final IconData icon;
   final bool isPassword;
   final Icon? suffixIcon;
-  const GeneralInputField(
-      {super.key,
-      required this.controller,
-      required this.hintText,
-      required this.icon,
-      required this.isPassword,
-      this.suffixIcon});
+  final FocusNode focus;
+  const GeneralInputField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+    required this.icon,
+    required this.isPassword,
+    required this.focus,
+    this.suffixIcon,
+  });
 
   @override
   State<GeneralInputField> createState() => _GeneralInputFieldState();
@@ -25,6 +28,8 @@ class _GeneralInputFieldState extends State<GeneralInputField> {
     return Column(
       children: [
         TextFormField(
+          autofocus: true,
+          focusNode: widget.focus,
           obscureText: widget.isPassword ? _obscureText : false,
           controller: widget.controller,
           decoration: InputDecoration(
