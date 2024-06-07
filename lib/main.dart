@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:inspection_app/screens/login_screen.dart';
+//import 'package:inspection_app/screens/login_screen.dart';
+import 'package:inspection_app/screens/splash_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             scaffoldBackgroundColor: const Color(0xFFF6F5FA),
           ),
-          home: const LoginScreen(),
+          home: const SplashScreen(),
         );
       },
     );

@@ -42,6 +42,12 @@ dependencies:
   flutter_screenutil: ^5.0.0+2
   http: ^1.2.1
   shared_preferences: ^2.2.3
+  flutter_native_splash: ^2.4.0
+
+flutter_native_splash: 
+  color: "#42a5f5"
+  image: assets/splash.png
+  android: true
 
 
 dev_dependencies:

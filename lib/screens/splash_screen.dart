@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:inspection_app/models/login_model.dart';
 import 'package:inspection_app/screens/login_screen.dart';
@@ -17,15 +15,21 @@ class SplashScreen extends StatelessWidget {
 
     Future<void> verifiedSesion() async {
       final token = await getToken();
+      Future.delayed(const Duration(
+        seconds: 10,
+      ));
+      print("llega aqui: $token");
       final nextRoute =
-          token != null ? const LoginScreen() : const CustomNavigationBar();
+          token != null ? const CustomNavigationBar() : const LoginScreen();
+
       goTo(nextRoute);
     }
 
     verifiedSesion();
 
     return const Scaffold(
-      body: CircularProgressIndicator(),
+      backgroundColor: Colors.blue,
+      body: Center(child: CircularProgressIndicator()),
     );
   }
 }
