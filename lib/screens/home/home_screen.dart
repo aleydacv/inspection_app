@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inspection_app/widget/app_bar_images.dart';
 
 void main() => runApp(const HomeScreen());
 
@@ -7,8 +8,11 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text("Home Screen")),
+    return Scaffold(
+      appBar: AppBar(
+        title: const AppBarImages(),
+      ),
+      body: const Center(child: Text("Home Screen")),
     );
   }
 }

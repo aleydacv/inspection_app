@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inspection_app/data/local/db.dart';
-import 'package:inspection_app/models/form_detail_model.dart';
-import 'package:inspection_app/models/form_model.dart';
 import 'package:inspection_app/screens/new_inspection/components/form/form_screen.dart';
 
 class InspectionList extends StatelessWidget {
@@ -39,9 +36,6 @@ class CostumListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const SizedBox(
-          height: 10,
-        ),
         ListTile(
           onTap: () async {
             /*List<FormModel> forms = await DataBase.getForms();
@@ -55,9 +49,15 @@ class CostumListItem extends StatelessWidget {
           },
           tileColor: Colors.white,
           title: const Text("Nombre del establecimiento"),
-          subtitle: const Text("Nombre propietario y rubro"),
+          subtitle: Text(
+            "Nombre propietario y rubro",
+            style: TextStyle(color: Colors.grey.shade700),
+          ),
           trailing: const Icon(Icons.keyboard_arrow_right),
         ),
+        const Divider(
+          height: 5,
+        )
       ],
     );
   }

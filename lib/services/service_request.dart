@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceRequest {
   //cambiar por el enpoint del servidor
@@ -31,11 +32,13 @@ class ServiceRequest {
 
   static Future<Map<String, dynamic>> getService(String param) async {
     Map<String, dynamic> res = {'data': null, 'error': null};
+    final prefers = await SharedPreferences.getInstance();
+    final token = prefers.get('auth_token');
     try {
       final url = Uri.parse(_endpoint + param);
       final response = await http.get(url, headers: {
         HttpHeaders.contentTypeHeader: '/application/json',
-        HttpHeaders.authorizationHeader: 'Bearer: '
+        HttpHeaders.authorizationHeader: 'Bearer: $token'
       });
       if (response.statusCode == 200) {
         res['data'] = jsonDecode(response.body);

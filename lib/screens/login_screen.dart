@@ -46,7 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
 
     void goTo() {
-      print("viene aqui  no ");
       Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const CustomNavigationBar()));
     }

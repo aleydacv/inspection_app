@@ -7,7 +7,7 @@ class DataBase {
   static Future<Database> _openDB() async {
     //await delete();
     String path = join(await getDatabasesPath(), 'inspection.db');
-    var database = await openDatabase(path, version: 2, onCreate: initDB);
+    var database = await openDatabase(path, version: 3, onCreate: initDB);
     return database;
   }
 
@@ -26,7 +26,10 @@ class DataBase {
         "sanitary_auth_num TEXT,"
         "notification_reference_num TEXT,"
         "male_sanitary_ci INTEGER,"
-        "female_sanitary_ci INTEGER"
+        "female_sanitary_ci INTEGER,"
+        "date TEXT"
+        "lat INTEGER,"
+        "long INTEGER"
         ")");
 
     await database.execute("CREATE TABLE form_detail("
@@ -58,6 +61,13 @@ class DataBase {
         "observations TEXT,"
         "FOREIGN KEY (form_id) REFERENCES form (id)"
         ")");
+    await database.execute("CREATE TABLE user("
+    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+    "name TEXT,"
+    "lastname TEXT,"
+    "ci TEXT,"
+    "cellphone TEXT,"
+    ")");
   }
 
   static Future<int> insertForm(FormModel form) async {

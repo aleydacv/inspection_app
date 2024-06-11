@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 //import 'package:inspection_app/screens/login_screen.dart';
 import 'package:inspection_app/screens/splash_screen.dart';
+import 'package:inspection_app/themes/app_theme.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,9 +19,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'Material App',
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            scaffoldBackgroundColor: const Color(0xFFF6F5FA),
-          ),
+          theme: AppTheme().theme(),
           home: const SplashScreen(),
         );
       },

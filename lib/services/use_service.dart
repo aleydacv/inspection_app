@@ -7,4 +7,9 @@ class UseService {
     final response = await ServiceRequest.postService('api/login', body);
     return response;
   }
+
+  static Future<Map<String, dynamic>> getUser() async {
+    final response = await ServiceRequest.getService('api/users/2');
+    return response;
+  }
 }

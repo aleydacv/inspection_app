@@ -293,12 +293,13 @@ class _FormScreenState extends State<FormScreen> {
                   CustomButton(
                       title: 'Guardar',
                       onPressed: _submitForm,
-                      colorButton: Colors.deepPurple,
+                      colorButton: Theme.of(context).primaryColor,
                       colorText: Colors.white),
+                  const SizedBox(height: 5),
                   CustomButton(
                       title: 'Cancel',
                       onPressed: _cancelForm,
-                      colorButton: Colors.grey,
+                      colorButton: Theme.of(context).colorScheme.secondaryFixed,
                       colorText: Colors.black)
                 ],
               )),
@@ -383,7 +384,10 @@ class _FormScreenState extends State<FormScreen> {
         sanitaryNumber: sanitaryController.text,
         notificationNumber: notificationController.text,
         maleSanitaryCi: sanitaryCI ? int.parse(countMaleCi.text) : 0,
-        femaleSanitaryCi: sanitaryCI ? int.parse(countFemaleCi.text) : 0);
+        femaleSanitaryCi: sanitaryCI ? int.parse(countFemaleCi.text) : 0,
+        date: "${currentDate.day}/${currentDate.month}/${currentDate.year}",
+        lat: 1213,
+        long: 1234);
     return form;
   }
 

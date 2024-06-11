@@ -9,6 +9,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void goTo(StatefulWidget nextRoute) {
+      print("donde va $nextRoute");
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => nextRoute));
     }
@@ -16,11 +17,12 @@ class SplashScreen extends StatelessWidget {
     Future<void> verifiedSesion() async {
       final token = await getToken();
       Future.delayed(const Duration(
-        seconds: 10,
+        seconds: 50,
       ));
       print("llega aqui: $token");
-      final nextRoute =
-          token != null ? const CustomNavigationBar() : const LoginScreen();
+      final nextRoute = token != null
+          ? const CustomNavigationBar()
+          : const CustomNavigationBar();
 
       goTo(nextRoute);
     }
@@ -28,7 +30,6 @@ class SplashScreen extends StatelessWidget {
     verifiedSesion();
 
     return const Scaffold(
-      backgroundColor: Colors.blue,
       body: Center(child: CircularProgressIndicator()),
     );
   }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inspection_app/screens/new_inspection/components/assigned_inspections/inspection_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inspection_app/themes/app_theme.dart';
+import 'package:inspection_app/widget/app_bar_images.dart';
 
 class NewInspectionScreen extends StatelessWidget {
   const NewInspectionScreen({super.key});
@@ -9,27 +11,22 @@ class NewInspectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("el titulo aqui"),
-          //backgroundColor: Colors.deepPurpleAccent[100],
+          title: const AppBarImages(),
         ),
-        //backgroundColor: const Color.fromARGB(255, 246, 247, 249),
-        backgroundColor: const Color(0xFFF6F5FA),
-        body: const Padding(
-          padding: EdgeInsets.all(10.0),
+        //backgroundColor: const Color(0xFFF6F5FA),
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
           child: Center(
             child: Column(
               children: [
                 Text(
                   "Realice una Inspeccion",
-                  style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black54),
+                  style: AppTheme().titleStyle(),
                 ),
-                SizedBox(
-                  height: 20,
+                const SizedBox(
+                  height: 10,
                 ),
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CustomIconButton(
@@ -62,18 +59,17 @@ class CustomIconButton extends StatelessWidget {
     return Container(
       width: 0.43.sw,
       height: 0.2.sh,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 1,
-              offset: const Offset(0, 1),
-            )
-          ]),
+      decoration:
+          BoxDecoration(borderRadius: BorderRadius.circular(20), boxShadow: [
+        BoxShadow(
+          color: Colors.black.withOpacity(0.2),
+          blurRadius: 1,
+          offset: const Offset(0, 1),
+        )
+      ]),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.grey.shade50,
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             elevation: 0),
@@ -88,12 +84,13 @@ class CustomIconButton extends StatelessWidget {
           children: [
             Icon(
               icon,
-              size: 45,
+              size: 35,
+              color: Colors.grey.shade700,
             ),
             const SizedBox(height: 15),
             Text(
               text,
-              style: const TextStyle(color: Colors.grey, fontSize: 14),
+              style: const TextStyle(color: Colors.black45, fontSize: 14),
             )
           ],
         ),
