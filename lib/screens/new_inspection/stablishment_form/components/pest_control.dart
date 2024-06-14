@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_field.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/toggle_buttons.dart';
+import 'package:inspection_app/widget/form_widget/input_text_field.dart';
+import 'package:inspection_app/widget/form_widget/toggle_buttons.dart';
 
 class PestControl extends StatelessWidget {
   const PestControl(

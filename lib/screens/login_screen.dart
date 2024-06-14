@@ -50,6 +50,15 @@ class _LoginScreenState extends State<LoginScreen> {
           MaterialPageRoute(builder: (context) => const CustomNavigationBar()));
     }
 
+    void getUser() async {
+      final res = await UseService.getUser();
+      if (res['data'] != null) {
+        print("usuario ${res['data']}");
+        //final user = UserModel.fromJson(res['data']);
+        //saveUser(user);
+      }
+    }
+
     void submitForm() async {
       if (formKey.currentState!.validate()) {
         setState(() {
@@ -63,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
         if (res['data'] != null) {
           final loginResponse = LoginModel.fromJsom(res['data']);
           saveToken(loginResponse.token);
+          getUser();
           goTo();
         } else {
           _user.clear();

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/toggle_buttons.dart';
+import 'package:inspection_app/widget/form_widget/toggle_buttons.dart';
 
 class IndustrialSecurity extends StatelessWidget {
   const IndustrialSecurity(

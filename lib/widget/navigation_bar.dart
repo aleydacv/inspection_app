@@ -30,8 +30,9 @@ class _CustomNavigationBarState extends State<CustomNavigationBar> {
 
   void _itemTapped(int index) async {
     if (index == 3) {
-      final prefers = await SharedPreferences.getInstance();
-      await prefers.remove('auth_token');
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove('auth_token');
+      await prefs.remove('user_data');
       _goTo();
     } else {
       setState(() {

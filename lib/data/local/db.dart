@@ -21,15 +21,25 @@ class DataBase {
   }
 
   static void initDB(Database database, int version) async {
+       await database.execute("CREATE TABLE user("
+        "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "name TEXT,"
+        "lastname TEXT,"
+        "ci TEXT,"
+        "cellphone TEXT,"
+        ")");
+        
     await database.execute("CREATE TABLE form("
         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
+        "user_id INT,"
         "sanitary_auth_num TEXT,"
         "notification_reference_num TEXT,"
         "male_sanitary_ci INTEGER,"
         "female_sanitary_ci INTEGER,"
         "date TEXT"
-        "lat INTEGER,"
-        "long INTEGER"
+        "latitude INTEGER,"
+        "longitude INTEGER,"
+        "FOREIGN KEY (user_id) REFERENCES user(id)"
         ")");
 
     await database.execute("CREATE TABLE form_detail("
@@ -61,13 +71,6 @@ class DataBase {
         "observations TEXT,"
         "FOREIGN KEY (form_id) REFERENCES form (id)"
         ")");
-    await database.execute("CREATE TABLE user("
-    "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-    "name TEXT,"
-    "lastname TEXT,"
-    "ci TEXT,"
-    "cellphone TEXT,"
-    ")");
   }
 
   static Future<int> insertForm(FormModel form) async {

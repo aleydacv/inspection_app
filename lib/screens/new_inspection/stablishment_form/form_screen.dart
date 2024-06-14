@@ -2,22 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:inspection_app/models/form_detail_model.dart';
 import 'package:inspection_app/models/form_model.dart';
-import 'package:inspection_app/screens/new_inspection/components/assigned_inspections/inspection_list.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/components/biosafety_control.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/components/industrial_security.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/components/pest_control.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/auto_text_field.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_date_picker.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_divider.dart';
+import 'package:inspection_app/screens/new_inspection/stablishment_form/components/biosafety_control.dart';
+import 'package:inspection_app/screens/new_inspection/stablishment_form/components/industrial_security.dart';
+import 'package:inspection_app/screens/new_inspection/stablishment_form/components/pest_control.dart';
+import 'package:inspection_app/widget/form_widget/auto_text_field.dart';
+import 'package:inspection_app/screens/new_inspection/stablishment_form/widgets/custom_date_picker.dart';
+import 'package:inspection_app/widget/form_widget/custom_divider.dart';
 import 'package:inspection_app/widget/custom_show_dialog.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/custom_switch_button.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_fiel_sanitary_ci.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/input_text_field.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/widgets/raiting_bar.dart';
+import 'package:inspection_app/widget/form_widget/custom_switch_button.dart';
+import 'package:inspection_app/widget/form_widget/input_text_fiel_male_female.dart';
+import 'package:inspection_app/widget/form_widget/input_text_field.dart';
+import 'package:inspection_app/screens/new_inspection/stablishment_form/widgets/raiting_bar.dart';
 import 'package:inspection_app/data/local/db.dart';
-import 'package:inspection_app/screens/new_inspection/new_inspection_screen.dart';
 
-import '../../../../widget/custom_button.dart';
+import '../../../widget/custom_button.dart';
 
 class FormScreen extends StatefulWidget {
   const FormScreen({super.key});
@@ -40,6 +38,8 @@ class _FormScreenState extends State<FormScreen> {
   double foodPreservationController = 0;
   bool sanitaryCI = false;
   DateTime currentDate = DateTime.now();
+  late double? _latitude;
+  late double? _longitude;
 
   final List<Widget> multipleOptions = [
     const Text("Si"),
@@ -168,7 +168,7 @@ class _FormScreenState extends State<FormScreen> {
                             })
                           }),
                   if (sanitaryCI)
-                    InputFieldSanitaryCi(
+                    InputFieldMaleFemale(
                         countMaleCi: countMaleCi, countFemaleCi: countFemaleCi),
                   const CustomDivider(),
                   CustomRatingBar(
@@ -381,13 +381,14 @@ class _FormScreenState extends State<FormScreen> {
 
   FormModel _submitFormModel() {
     FormModel form = FormModel(
+        userId: 1,
         sanitaryNumber: sanitaryController.text,
         notificationNumber: notificationController.text,
         maleSanitaryCi: sanitaryCI ? int.parse(countMaleCi.text) : 0,
         femaleSanitaryCi: sanitaryCI ? int.parse(countFemaleCi.text) : 0,
         date: "${currentDate.day}/${currentDate.month}/${currentDate.year}",
-        lat: 1213,
-        long: 1234);
+        latitude: _latitude ?? 0.0,
+        longitude: _longitude ?? 0.0);
     return form;
   }
 

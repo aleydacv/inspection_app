@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class InputFieldSanitaryCi extends StatelessWidget {
-  const InputFieldSanitaryCi({
+class InputFieldMaleFemale extends StatelessWidget {
+  const InputFieldMaleFemale({
     super.key,
     required this.countMaleCi,
     required this.countFemaleCi,
@@ -17,14 +17,14 @@ class InputFieldSanitaryCi extends StatelessWidget {
         Expanded(
           flex: 5,
           child: TextFormField(
-            key: const Key("Male Ci"),
+            key: const Key("Male"),
             controller: countMaleCi,
             keyboardType: TextInputType.number,
             maxLength: 2,
             style: const TextStyle(fontSize: 16),
             decoration: const InputDecoration(
               contentPadding: EdgeInsets.all(12),
-              hintText: "CI Masculinos",
+              hintText: "Masculinos",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
@@ -42,14 +42,14 @@ class InputFieldSanitaryCi extends StatelessWidget {
         Expanded(
           flex: 5,
           child: TextFormField(
-            key: const Key("Female CI"),
+            key: const Key("Female"),
             controller: countFemaleCi,
             keyboardType: TextInputType.number,
             maxLength: 2,
             style: const TextStyle(fontSize: 16),
             decoration: const InputDecoration(
               contentPadding: EdgeInsets.all(12),
-              hintText: "CI Femeninos",
+              hintText: "Femeninos",
               border: OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10))),
             ),

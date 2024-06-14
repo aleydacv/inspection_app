@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inspection_app/screens/new_inspection/components/assigned_inspections/inspection_list.dart';
+import 'package:inspection_app/screens/new_inspection/assigned_inspections/inspection_list.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:inspection_app/screens/new_inspection/street_trading_form/street_trading_form_screen.dart';
 import 'package:inspection_app/themes/app_theme.dart';
 import 'package:inspection_app/widget/app_bar_images.dart';
 
@@ -26,19 +27,33 @@ class NewInspectionScreen extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     CustomIconButton(
                       icon: Icons.storefront,
                       text: "Establecimientos",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const InspectionList()),
+                        );
+                      },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     CustomIconButton(
                       icon: Icons.beach_access_outlined,
                       text: "Ambulantes",
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const StreetTradingForm()),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -52,7 +67,12 @@ class NewInspectionScreen extends StatelessWidget {
 class CustomIconButton extends StatelessWidget {
   final IconData icon;
   final String text;
-  const CustomIconButton({super.key, required this.icon, required this.text});
+  final VoidCallback onPressed;
+  const CustomIconButton(
+      {super.key,
+      required this.icon,
+      required this.text,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +93,7 @@ class CustomIconButton extends StatelessWidget {
             shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(Radius.circular(20))),
             elevation: 0),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const InspectionList()),
-          );
-        },
+        onPressed: onPressed,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

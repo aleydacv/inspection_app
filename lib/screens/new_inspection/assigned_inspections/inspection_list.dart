@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inspection_app/screens/new_inspection/components/form/form_screen.dart';
+import 'package:inspection_app/screens/new_inspection/stablishment_form/stablishment_form_screen.dart';
 
 class InspectionList extends StatelessWidget {
   const InspectionList({super.key});

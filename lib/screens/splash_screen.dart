@@ -9,7 +9,6 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void goTo(StatefulWidget nextRoute) {
-      print("donde va $nextRoute");
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => nextRoute));
     }
@@ -20,6 +19,10 @@ class SplashScreen extends StatelessWidget {
         seconds: 50,
       ));
       print("llega aqui: $token");
+      //Aqui se cambia por login
+      /*final nextRoute = token != null
+          ? const CustomNavigationBar()
+          : const LoginScreen();*/
       final nextRoute = token != null
           ? const CustomNavigationBar()
           : const CustomNavigationBar();
